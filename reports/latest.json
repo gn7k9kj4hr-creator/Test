@@ -1,0 +1,321 @@
+{
+  "generated_at": "2026-08-13T05:11:39.529101+00:00",
+  "mode": "PAPER_ONLY",
+  "data_source": "Direct Yahoo Finance chart endpoint (keyless HTTP)",
+  "latest_market_date": "2026-08-12",
+  "universe": [
+    "SNDL",
+    "PLUG",
+    "OPEN",
+    "CLOV",
+    "NOK",
+    "BB",
+    "MARA",
+    "RIOT",
+    "DNA",
+    "JOBY",
+    "BBAI",
+    "SIRI",
+    "GPRO",
+    "LCID",
+    "WKHS"
+  ],
+  "eligible_under_5": 7,
+  "market": [
+    {
+      "symbol": "WKHS",
+      "price": 3.09,
+      "score": 85,
+      "signal": "BUY (PAPER)",
+      "return_20d_pct": 18.39,
+      "volatility_pct": 65.13,
+      "volume_vs_20d": 1.76,
+      "history_start": "2026-02-13",
+      "history_end": "2026-08-12",
+      "bars": 124
+    },
+    {
+      "symbol": "PLUG",
+      "price": 2.29,
+      "score": 65,
+      "signal": "BUY (PAPER)",
+      "return_20d_pct": 3.62,
+      "volatility_pct": 65.04,
+      "volume_vs_20d": 1.53,
+      "history_start": "2026-02-13",
+      "history_end": "2026-08-12",
+      "bars": 124
+    },
+    {
+      "symbol": "JOBY",
+      "price": 7.96,
+      "score": 60,
+      "signal": "WATCH",
+      "return_20d_pct": 2.58,
+      "volatility_pct": 81.21,
+      "volume_vs_20d": 0.61,
+      "history_start": "2026-02-13",
+      "history_end": "2026-08-12",
+      "bars": 124
+    },
+    {
+      "symbol": "BBAI",
+      "price": 3.26,
+      "score": 60,
+      "signal": "WATCH",
+      "return_20d_pct": 3.82,
+      "volatility_pct": 76.5,
+      "volume_vs_20d": 0.62,
+      "history_start": "2026-02-13",
+      "history_end": "2026-08-12",
+      "bars": 124
+    },
+    {
+      "symbol": "LCID",
+      "price": 6.54,
+      "score": 60,
+      "signal": "WATCH",
+      "return_20d_pct": 9.92,
+      "volatility_pct": 126.0,
+      "volume_vs_20d": 0.36,
+      "history_start": "2026-02-13",
+      "history_end": "2026-08-12",
+      "bars": 124
+    },
+    {
+      "symbol": "CLOV",
+      "price": 4.54,
+      "score": 45,
+      "signal": "WATCH",
+      "return_20d_pct": -2.99,
+      "volatility_pct": 73.79,
+      "volume_vs_20d": 1.02,
+      "history_start": "2026-02-13",
+      "history_end": "2026-08-12",
+      "bars": 124
+    },
+    {
+      "symbol": "NOK",
+      "price": 10.32,
+      "score": 45,
+      "signal": "WATCH",
+      "return_20d_pct": -8.27,
+      "volatility_pct": 77.59,
+      "volume_vs_20d": 1.22,
+      "history_start": "2026-02-13",
+      "history_end": "2026-08-12",
+      "bars": 124
+    },
+    {
+      "symbol": "RIOT",
+      "price": 20.32,
+      "score": 45,
+      "signal": "WATCH",
+      "return_20d_pct": 1.09,
+      "volatility_pct": 123.57,
+      "volume_vs_20d": 1.49,
+      "history_start": "2026-02-13",
+      "history_end": "2026-08-12",
+      "bars": 124
+    },
+    {
+      "symbol": "SIRI",
+      "price": 28.44,
+      "score": 45,
+      "signal": "WATCH",
+      "return_20d_pct": -7.21,
+      "volatility_pct": 39.18,
+      "volume_vs_20d": 1.44,
+      "history_start": "2026-02-13",
+      "history_end": "2026-08-12",
+      "bars": 124
+    },
+    {
+      "symbol": "SNDL",
+      "price": 1.26,
+      "score": 40,
+      "signal": "AVOID",
+      "return_20d_pct": -2.33,
+      "volatility_pct": 58.09,
+      "volume_vs_20d": 0.69,
+      "history_start": "2026-02-13",
+      "history_end": "2026-08-12",
+      "bars": 124
+    },
+    {
+      "symbol": "BB",
+      "price": 8.77,
+      "score": 40,
+      "signal": "AVOID",
+      "return_20d_pct": -17.58,
+      "volatility_pct": 66.47,
+      "volume_vs_20d": 0.7,
+      "history_start": "2026-02-13",
+      "history_end": "2026-08-12",
+      "bars": 124
+    },
+    {
+      "symbol": "DNA",
+      "price": 7.21,
+      "score": 25,
+      "signal": "AVOID",
+      "return_20d_pct": -19.89,
+      "volatility_pct": 81.84,
+      "volume_vs_20d": 1.06,
+      "history_start": "2026-02-13",
+      "history_end": "2026-08-12",
+      "bars": 124
+    },
+    {
+      "symbol": "GPRO",
+      "price": 0.575,
+      "score": 25,
+      "signal": "AVOID",
+      "return_20d_pct": -18.44,
+      "volatility_pct": 74.22,
+      "volume_vs_20d": 2.88,
+      "history_start": "2026-02-13",
+      "history_end": "2026-08-12",
+      "bars": 124
+    },
+    {
+      "symbol": "OPEN",
+      "price": 3.49,
+      "score": 20,
+      "signal": "AVOID",
+      "return_20d_pct": -26.53,
+      "volatility_pct": 73.49,
+      "volume_vs_20d": 0.35,
+      "history_start": "2026-02-13",
+      "history_end": "2026-08-12",
+      "bars": 124
+    },
+    {
+      "symbol": "MARA",
+      "price": 9.64,
+      "score": 20,
+      "signal": "AVOID",
+      "return_20d_pct": -21.56,
+      "volatility_pct": 104.11,
+      "volume_vs_20d": 0.87,
+      "history_start": "2026-02-13",
+      "history_end": "2026-08-12",
+      "bars": 124
+    }
+  ],
+  "agents": [
+    {
+      "agent": 1,
+      "strategy": "Momentum",
+      "virtual_cash": 25.0,
+      "decision": "PAPER BUY",
+      "selection": {
+        "symbol": "WKHS",
+        "price": 3.09,
+        "score": 85,
+        "signal": "BUY (PAPER)",
+        "return_20d_pct": 18.39,
+        "volatility_pct": 65.13,
+        "volume_vs_20d": 1.76,
+        "history_start": "2026-02-13",
+        "history_end": "2026-08-12",
+        "bars": 124
+      },
+      "analysts": {
+        "Analyst A": "PASS",
+        "Analyst B": "PASS"
+      },
+      "discussion": [
+        "Lead: ranked 7 current sub-$5 candidates using Momentum rules.",
+        "Analyst A: support based on score and volatility.",
+        "Analyst B: support based on volume and recent return.",
+        "Lead: final status is PAPER BUY. No live order is submitted."
+      ]
+    },
+    {
+      "agent": 2,
+      "strategy": "Trend + Volume",
+      "virtual_cash": 25.0,
+      "decision": "WATCH / NO TRADE",
+      "selection": {
+        "symbol": "GPRO",
+        "price": 0.575,
+        "score": 25,
+        "signal": "AVOID",
+        "return_20d_pct": -18.44,
+        "volatility_pct": 74.22,
+        "volume_vs_20d": 2.88,
+        "history_start": "2026-02-13",
+        "history_end": "2026-08-12",
+        "bars": 124
+      },
+      "analysts": {
+        "Analyst A": "REVIEW",
+        "Analyst B": "REVIEW"
+      },
+      "discussion": [
+        "Lead: ranked 7 current sub-$5 candidates using Trend + Volume rules.",
+        "Analyst A: do not support based on score and volatility.",
+        "Analyst B: do not support based on volume and recent return.",
+        "Lead: final status is WATCH / NO TRADE. No live order is submitted."
+      ]
+    },
+    {
+      "agent": 3,
+      "strategy": "Balanced",
+      "virtual_cash": 25.0,
+      "decision": "PAPER BUY",
+      "selection": {
+        "symbol": "WKHS",
+        "price": 3.09,
+        "score": 85,
+        "signal": "BUY (PAPER)",
+        "return_20d_pct": 18.39,
+        "volatility_pct": 65.13,
+        "volume_vs_20d": 1.76,
+        "history_start": "2026-02-13",
+        "history_end": "2026-08-12",
+        "bars": 124
+      },
+      "analysts": {
+        "Analyst A": "PASS",
+        "Analyst B": "PASS"
+      },
+      "discussion": [
+        "Lead: ranked 7 current sub-$5 candidates using Balanced rules.",
+        "Analyst A: support based on score and volatility.",
+        "Analyst B: support based on volume and recent return.",
+        "Lead: final status is PAPER BUY. No live order is submitted."
+      ]
+    },
+    {
+      "agent": 4,
+      "strategy": "Risk-aware",
+      "virtual_cash": 25.0,
+      "decision": "WATCH / NO TRADE",
+      "selection": {
+        "symbol": "SNDL",
+        "price": 1.26,
+        "score": 40,
+        "signal": "AVOID",
+        "return_20d_pct": -2.33,
+        "volatility_pct": 58.09,
+        "volume_vs_20d": 0.69,
+        "history_start": "2026-02-13",
+        "history_end": "2026-08-12",
+        "bars": 124
+      },
+      "analysts": {
+        "Analyst A": "REVIEW",
+        "Analyst B": "REVIEW"
+      },
+      "discussion": [
+        "Lead: ranked 7 current sub-$5 candidates using Risk-aware rules.",
+        "Analyst A: do not support based on score and volatility.",
+        "Analyst B: do not support based on volume and recent return.",
+        "Lead: final status is WATCH / NO TRADE. No live order is submitted."
+      ]
+    }
+  ],
+  "data_errors": {}
+}
