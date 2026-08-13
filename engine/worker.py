@@ -6,7 +6,7 @@ from .agents import vote
 from .gates import champion_challenger
 ROOT=Path(__file__).resolve().parents[1]
 def main():
-    result={"generated_at":datetime.now(timezone.utc).isoformat(),"mode":"DRY_RUN","strategies":{}}; summary={}
+    result={"generated_at":datetime.now(timezone.utc).isoformat(),"mode":"DRY_RUN","data_source":"Yahoo Finance via yfinance","strategies":{}}; summary={}
     for name,strategy in CFG["strategies"].items():
         rows=[]
         for symbol in CFG["symbols"]:
