@@ -37,4 +37,11 @@ class Portfolio:
 def run_symbol(symbol,strategy):
     df=yf.download(symbol,period=CFG.get("period","5y"),auto_adjust=True,progress=False)
     if df.empty:raise ValueError(f"No market data returned for {symbol}")
-    return Portfolio().run(df,symbol,strategy)
+    result=Portfolio().run(df,symbol,strategy)
+    x=features(df,strategy["fast"],strategy["slow"],strategy["momentum"])
+    latest=x.iloc[-1]; latest_score=score(latest); threshold=strategy["threshold"]
+    if latest_score>=threshold: signal="LONG"
+    elif latest_score<CFG["exit_score"]: signal="EXIT/CASH"
+    else: signal="HOLD"
+    result["current_signal"]={"signal":signal,"score":latest_score,"threshold":threshold,"price":float(latest.close),"as_of":str(x.index[-1]),"confidence":round(min(1.0,latest_score/75),2),"note":"Directional model signal, not a guaranteed forecast."}
+    return result
