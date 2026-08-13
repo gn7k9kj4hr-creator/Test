@@ -9,26 +9,32 @@ ROOT = Path(__file__).parent
 REPORTS = ROOT / "reports"
 REPORTS.mkdir(exist_ok=True)
 
+# Keyless, liquid-ish low-priced/watchlist universe. Failed symbols are skipped.
 UNIVERSE = ["SNDL", "PLUG", "OPEN", "CLOV", "NOK", "BB", "MARA", "RIOT", "DNA", "JOBY", "BBAI", "SIRI", "GPRO", "LCID", "WKHS"]
 STARTING_CASH = 25.0
 
 
-def download(symbol, attempts=3):
+def download(symbol, attempts=4):
     last_error = None
     for attempt in range(attempts):
         try:
-            df = yf.download(symbol, period="6mo", interval="1d", auto_adjust=True, progress=False, threads=False)
+            # Explicitly request one symbol and normalize both possible yfinance column layouts.
+            df = yf.download(symbol, period="6mo", interval="1d", auto_adjust=True,
+                             progress=False, threads=False, timeout=20)
             if df is not None and not df.empty:
                 if hasattr(df.columns, "levels"):
                     df.columns = df.columns.get_level_values(0)
-                if {"Close", "Volume"}.issubset(df.columns):
+                required = {"Close", "Volume"}
+                if required.issubset(set(df.columns)):
                     df = df.dropna(subset=["Close"])
                     if len(df) >= 50:
                         return df
-            last_error = "empty or insufficient data"
+                last_error = "empty or insufficient data"
+            else:
+                last_error = "empty response"
         except Exception as exc:
             last_error = str(exc)
-        time.sleep(1 + attempt)
+        time.sleep(2 + attempt * 2)
     return None
 
 
@@ -59,15 +65,16 @@ def analyze(symbol, df):
 
 def main():
     market = []
-    errors = []
+    errors = {}
     for symbol in UNIVERSE:
-        row = analyze(symbol, download(symbol))
+        df = download(symbol)
+        row = analyze(symbol, df)
         if row:
             market.append(row)
         else:
-            errors.append(symbol)
-    market.sort(key=lambda x: x["score"], reverse=True)
+            errors[symbol] = "No usable 6-month daily data returned by yfinance"
 
+    market.sort(key=lambda x: x["score"], reverse=True)
     if not market:
         raise RuntimeError("No market data was returned by yfinance; refusing to publish an empty report")
 
@@ -77,6 +84,10 @@ def main():
         ranked = market[:8]
         if style == "Risk-aware":
             ranked = sorted(market, key=lambda x: (x["volatility_pct"], -x["score"]))[:8]
+        elif style == "Momentum":
+            ranked = sorted(ranked, key=lambda x: (x["return_20d_pct"], x["score"]), reverse=True)
+        elif style == "Trend + Volume":
+            ranked = sorted(ranked, key=lambda x: (x["volume_vs_20d"], x["score"]), reverse=True)
         chosen = ranked[0] if ranked else None
         if chosen:
             analyst_a = chosen["score"] >= 55 and chosen["volatility_pct"] < 150
@@ -118,7 +129,7 @@ def main():
         "failed_symbols": len(errors),
         "status": "OK",
     }, indent=2))
-    print(f"Generated {len(market)} market records for 4 paper agents")
+    print(f"Generated {len(market)} market records for 4 paper agents; skipped {len(errors)} symbols")
 
 
 if __name__ == "__main__":
