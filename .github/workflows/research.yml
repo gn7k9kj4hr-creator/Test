@@ -23,15 +23,38 @@ jobs:
         with:
           python-version: '3.11'
           cache: pip
-      - name: Install dependencies
+      - name: Install dependencies with retries
+        shell: bash
         run: |
-          python -m pip install --upgrade pip setuptools wheel
-          python -m pip install --only-binary=:all: 'numpy==1.26.4' 'pandas==2.1.1' 'yfinance==0.2.32'
-      - name: Run four-agent research
+          set -e
+          for attempt in {1..10}; do
+            echo "Dependency install attempt $attempt/10"
+            python -m pip install --upgrade pip setuptools wheel && \
+            python -m pip install --only-binary=:all: 'numpy==1.26.4' 'pandas==2.1.1' 'yfinance==0.2.32' && break
+            if [ "$attempt" -eq 10 ]; then exit 1; fi
+            sleep 10
+          done
+      - name: Run four-agent research with retries
+        shell: bash
         env:
           PYTHONUNBUFFERED: '1'
-        run: python research_run.py
+        run: |
+          set -u
+          for attempt in {1..10}; do
+            echo "Research attempt $attempt/10"
+            rm -f reports/latest.json reports/status.json
+            if python research_run.py; then
+              echo "Research completed on attempt $attempt"
+              break
+            fi
+            if [ "$attempt" -eq 10 ]; then
+              echo "Research failed after 10 attempts"
+              exit 1
+            fi
+            sleep 15
+          done
       - name: Verify real report
+        shell: bash
         run: |
           test -s reports/latest.json
           test -s reports/status.json
