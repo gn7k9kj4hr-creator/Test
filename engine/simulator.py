@@ -20,10 +20,10 @@ class Portfolio:
         if qty<=0:return
         fill=price*(1+CFG["slippage_bps"]/10000); self.cash-=qty*fill; self.positions[symbol]={"qty":qty,"entry":fill,"stop":stop,"date":date,"score":sc}
     def sell(self,symbol,price,date,reason):
-        p=self.positions.pop(symbol); fill=price*(1-CFG["slippage_bps"]/10000); pnl=(fill-p["entry"])*p["qty"]; self.cash+=fill*p["qty"]; self.trades.append({"symbol":symbol,"entry":str(p["date"]),"exit":str(date),"pnl":pnl,"reason":reason})
+        p=self.positions.pop(symbol); fill=price*(1-CFG["slippage_bps"]/10000); pnl=(fill-p["entry"])*p["qty"]; self.cash+=fill*p["qty"]; self.trades.append({"symbol":symbol,"entry":str(p["date"]),"exit":str(date),"entry_price":p["entry"],"exit_price":fill,"qty":p["qty"],"pnl":pnl,"reason":reason,"entry_score":p["score"]})
     def report(self):
         t=pd.DataFrame(self.trades); e=pd.DataFrame(self.curve); wins=t.loc[t.pnl>0,"pnl"].sum() if not t.empty else 0; losses=abs(t.loc[t.pnl<0,"pnl"].sum()) if not t.empty else 0
-        return {"start":self.start,"end":float(e.iloc[-1].equity) if len(e) else self.start,"return":float(e.iloc[-1].equity/self.start-1) if len(e) else 0,"max_drawdown":float(e.drawdown.min()) if len(e) else 0,"trades":len(t),"profit_factor":float(wins/losses) if losses else 0,"win_rate":float((t.pnl>0).mean()) if not t.empty else 0,"halted":self.halted}
+        return {"start":self.start,"end":float(e.iloc[-1].equity) if len(e) else self.start,"return":float(e.iloc[-1].equity/self.start-1) if len(e) else 0,"max_drawdown":float(e.drawdown.min()) if len(e) else 0,"trades":len(t),"trade_log":self.trades,"profit_factor":float(wins/losses) if losses else 0,"win_rate":float((t.pnl>0).mean()) if not t.empty else 0,"halted":self.halted}
     def run(self,df,symbol,strategy):
         x=features(df,strategy["fast"],strategy["slow"],strategy["momentum"])
         for date,r in x.iterrows():
@@ -38,8 +38,7 @@ def run_symbol(symbol,strategy):
     df=yf.download(symbol,period=CFG.get("period","5y"),auto_adjust=True,progress=False)
     if df.empty:raise ValueError(f"No market data returned for {symbol}")
     result=Portfolio().run(df,symbol,strategy)
-    x=features(df,strategy["fast"],strategy["slow"],strategy["momentum"])
-    latest=x.iloc[-1]; latest_score=score(latest); threshold=strategy["threshold"]
+    x=features(df,strategy["fast"],strategy["slow"],strategy["momentum"]); latest=x.iloc[-1]; latest_score=score(latest); threshold=strategy["threshold"]
     if latest_score>=threshold: signal="LONG"
     elif latest_score<CFG["exit_score"]: signal="EXIT/CASH"
     else: signal="HOLD"
