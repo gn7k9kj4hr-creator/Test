@@ -1,0 +1,47 @@
+name: Keyless Market Research
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '30 14 * * 1-5'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: paper-research
+  cancel-in-progress: true
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install keyless data dependencies
+        run: pip install yfinance==0.2.32 pandas==2.1.1 numpy==1.24.3
+      - name: Run market research
+        run: python research_run.py
+      - name: Verify report
+        run: |
+          test -s reports/latest.json
+          python - <<'PY'
+          import json
+          r=json.load(open('reports/latest.json'))
+          assert r['mode']=='PAPER_ONLY'
+          assert len(r['agents'])==4
+          print('Agents:', len(r['agents']), 'Market records:', len(r['market']))
+          PY
+      - name: Publish report to Pages source
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add reports/latest.json reports/status.json
+          if git diff --cached --quiet; then echo 'No report changes'; else git commit -m 'Update keyless market research report'; git push; fi
