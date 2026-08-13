@@ -1,0 +1,43 @@
+name: Run AI Trading Research
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 21 * * 1-5'
+
+permissions:
+  contents: write
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: engine/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r engine/requirements.txt
+
+      - name: Fetch current market data and run agents
+        run: python -m engine.worker
+
+      - name: Publish latest report
+        run: |
+          mkdir -p app/reports
+          cp reports/latest.json app/reports/latest.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add reports/latest.json app/reports/latest.json
+          if git diff --cached --quiet; then
+            echo 'No report changes to commit.'
+          else
+            git commit -m 'Update market research report'
+            git push
+          fi
