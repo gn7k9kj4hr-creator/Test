@@ -1,23 +1,33 @@
 {
-  "generated_at": "2026-08-13T03:22:40.354229+00:00",
+  "generated_at": "2026-08-13T03:47:46.431358+00:00",
   "mode": "DRY_RUN",
+  "data_source": "Yahoo Finance via yfinance",
   "strategies": {
     "champion": {
-      "avg_return": 0.040667051411091636,
-      "worst_drawdown": -0.06301005834212825,
-      "avg_profit_factor": 1.5981812151069854,
+      "avg_return": 0.040667174148685946,
+      "worst_drawdown": -0.06300992508366099,
+      "avg_profit_factor": 1.5981829990844667,
       "total_trades": 207,
       "agent_passes": 4,
       "symbols": [
         {
           "start": 100.0,
-          "end": 104.90360124170647,
-          "return": 0.04903601241706479,
-          "max_drawdown": -0.03132650683097982,
+          "end": 104.90363417491102,
+          "return": 0.0490363417491102,
+          "max_drawdown": -0.03132623299133097,
           "trades": 39,
-          "profit_factor": 1.7117669091992647,
+          "profit_factor": 1.7117731515028378,
           "win_rate": 0.358974358974359,
           "halted": false,
+          "current_signal": {
+            "signal": "LONG",
+            "score": 65,
+            "threshold": 65,
+            "price": 772.489990234375,
+            "as_of": "2026-08-12 00:00:00",
+            "confidence": 0.87,
+            "note": "Directional model signal, not a guaranteed forecast."
+          },
           "symbol": "SPY",
           "agent_vote": {
             "votes": {
@@ -31,13 +41,22 @@
         },
         {
           "start": 100.0,
-          "end": 107.98826530328749,
-          "return": 0.0798826530328749,
-          "max_drawdown": -0.03499112004374183,
+          "end": 107.98827429624984,
+          "return": 0.07988274296249842,
+          "max_drawdown": -0.03499101063763521,
           "trades": 37,
-          "profit_factor": 1.945606425877415,
+          "profit_factor": 1.9456066047183036,
           "win_rate": 0.4594594594594595,
           "halted": false,
+          "current_signal": {
+            "signal": "HOLD",
+            "score": 60,
+            "threshold": 65,
+            "price": 723.7000122070312,
+            "as_of": "2026-08-12 00:00:00",
+            "confidence": 0.8,
+            "note": "Directional model signal, not a guaranteed forecast."
+          },
           "symbol": "QQQ",
           "agent_vote": {
             "votes": {
@@ -51,13 +70,22 @@
         },
         {
           "start": 100.0,
-          "end": 101.65783115369929,
-          "return": 0.01657831153699285,
-          "max_drawdown": -0.03504920563633063,
+          "end": 101.65784077876117,
+          "return": 0.01657840778761166,
+          "max_drawdown": -0.03504915841477407,
           "trades": 43,
-          "profit_factor": 1.1940790298153485,
+          "profit_factor": 1.1940803758146536,
           "win_rate": 0.4186046511627907,
           "halted": false,
+          "current_signal": {
+            "signal": "LONG",
+            "score": 75,
+            "threshold": 65,
+            "price": 302.7099914550781,
+            "as_of": "2026-08-12 00:00:00",
+            "confidence": 1.0,
+            "note": "Directional model signal, not a guaranteed forecast."
+          },
           "symbol": "IWM",
           "agent_vote": {
             "votes": {
@@ -78,6 +106,15 @@
           "profit_factor": 2.7825052974749753,
           "win_rate": 0.391304347826087,
           "halted": false,
+          "current_signal": {
+            "signal": "HOLD",
+            "score": 55,
+            "threshold": 65,
+            "price": 404.9200134277344,
+            "as_of": "2026-08-12 00:00:00",
+            "confidence": 0.73,
+            "note": "Directional model signal, not a guaranteed forecast."
+          },
           "symbol": "GLD",
           "agent_vote": {
             "votes": {
@@ -91,13 +128,22 @@
         },
         {
           "start": 100.0,
-          "end": 93.90962955276413,
-          "return": -0.06090370447235871,
-          "max_drawdown": -0.06301005834212825,
+          "end": 93.90963937033251,
+          "return": -0.060903606296674906,
+          "max_drawdown": -0.06300992508366099,
           "trades": 42,
-          "profit_factor": 0.35694841316792325,
+          "profit_factor": 0.3569495659115632,
           "win_rate": 0.16666666666666666,
           "halted": false,
+          "current_signal": {
+            "signal": "EXIT/CASH",
+            "score": 10,
+            "threshold": 65,
+            "price": 82.11000061035156,
+            "as_of": "2026-08-12 00:00:00",
+            "confidence": 0.13,
+            "note": "Directional model signal, not a guaranteed forecast."
+          },
           "symbol": "TLT",
           "agent_vote": {
             "votes": {
@@ -112,21 +158,30 @@
       ]
     },
     "challenger_a": {
-      "avg_return": 0.04470246322626721,
-      "worst_drawdown": -0.048306273340588124,
-      "avg_profit_factor": 1.4872667451879602,
+      "avg_return": 0.04470264787067548,
+      "worst_drawdown": -0.04830596956493516,
+      "avg_profit_factor": 1.4872685579730989,
       "total_trades": 231,
       "agent_passes": 4,
       "symbols": [
         {
           "start": 100.0,
-          "end": 105.31164865949086,
-          "return": 0.05311648659490853,
-          "max_drawdown": -0.028671399599667913,
+          "end": 105.31169643973323,
+          "return": 0.053116964397332156,
+          "max_drawdown": -0.028671190633614896,
           "trades": 48,
-          "profit_factor": 1.6057501294474399,
+          "profit_factor": 1.6057563759514244,
           "win_rate": 0.3958333333333333,
           "halted": false,
+          "current_signal": {
+            "signal": "LONG",
+            "score": 65,
+            "threshold": 65,
+            "price": 772.489990234375,
+            "as_of": "2026-08-12 00:00:00",
+            "confidence": 0.87,
+            "note": "Directional model signal, not a guaranteed forecast."
+          },
           "symbol": "SPY",
           "agent_vote": {
             "votes": {
@@ -140,13 +195,22 @@
         },
         {
           "start": 100.0,
-          "end": 109.2612623130297,
-          "return": 0.09261262313029706,
-          "max_drawdown": -0.037559460522120225,
+          "end": 109.26126031019447,
+          "return": 0.09261260310194475,
+          "max_drawdown": -0.037559418316044035,
           "trades": 44,
-          "profit_factor": 1.9525816039742214,
+          "profit_factor": 1.9525812450468627,
           "win_rate": 0.4318181818181818,
           "halted": false,
+          "current_signal": {
+            "signal": "LONG",
+            "score": 70,
+            "threshold": 65,
+            "price": 723.7000122070312,
+            "as_of": "2026-08-12 00:00:00",
+            "confidence": 0.93,
+            "note": "Directional model signal, not a guaranteed forecast."
+          },
           "symbol": "QQQ",
           "agent_vote": {
             "votes": {
@@ -160,13 +224,22 @@
         },
         {
           "start": 100.0,
-          "end": 102.3650945404127,
-          "return": 0.023650945404126933,
-          "max_drawdown": -0.040399024286326024,
+          "end": 102.36511039181734,
+          "return": 0.02365110391817349,
+          "max_drawdown": -0.040398837265787746,
           "trades": 47,
-          "profit_factor": 1.2277381949996549,
+          "profit_factor": 1.227739690459461,
           "win_rate": 0.3191489361702128,
           "halted": false,
+          "current_signal": {
+            "signal": "LONG",
+            "score": 75,
+            "threshold": 65,
+            "price": 302.7099914550781,
+            "as_of": "2026-08-12 00:00:00",
+            "confidence": 1.0,
+            "note": "Directional model signal, not a guaranteed forecast."
+          },
           "symbol": "IWM",
           "agent_vote": {
             "votes": {
@@ -187,6 +260,15 @@
           "profit_factor": 2.154554190879911,
           "win_rate": 0.36538461538461536,
           "halted": false,
+          "current_signal": {
+            "signal": "LONG",
+            "score": 65,
+            "threshold": 65,
+            "price": 404.9200134277344,
+            "as_of": "2026-08-12 00:00:00",
+            "confidence": 0.87,
+            "note": "Directional model signal, not a guaranteed forecast."
+          },
           "symbol": "GLD",
           "agent_vote": {
             "votes": {
@@ -200,13 +282,22 @@
         },
         {
           "start": 100.0,
-          "end": 95.38332726601314,
-          "return": -0.046166727339868596,
-          "max_drawdown": -0.048306273340588124,
+          "end": 95.38335795940549,
+          "return": -0.0461664204059451,
+          "max_drawdown": -0.04830596956493516,
           "trades": 40,
-          "profit_factor": 0.4957096066385741,
+          "profit_factor": 0.4957112875278356,
           "win_rate": 0.2,
           "halted": false,
+          "current_signal": {
+            "signal": "EXIT/CASH",
+            "score": 10,
+            "threshold": 65,
+            "price": 82.11000061035156,
+            "as_of": "2026-08-12 00:00:00",
+            "confidence": 0.13,
+            "note": "Directional model signal, not a guaranteed forecast."
+          },
           "symbol": "TLT",
           "agent_vote": {
             "votes": {
@@ -221,21 +312,30 @@
       ]
     },
     "challenger_b": {
-      "avg_return": 0.04632846017159713,
-      "worst_drawdown": -0.052257247929017314,
-      "avg_profit_factor": 1.8911045525684298,
+      "avg_return": 0.046328336167538134,
+      "worst_drawdown": -0.05225775665424304,
+      "avg_profit_factor": 1.8911041296899342,
       "total_trades": 149,
       "agent_passes": 3,
       "symbols": [
         {
           "start": 100.0,
-          "end": 104.1407105472764,
-          "return": 0.04140710547276405,
-          "max_drawdown": -0.02150773995634714,
+          "end": 104.14070575554223,
+          "return": 0.04140705755542218,
+          "max_drawdown": -0.02150784819236229,
           "trades": 31,
-          "profit_factor": 1.6425294366752259,
+          "profit_factor": 1.642529665003745,
           "win_rate": 0.3225806451612903,
           "halted": false,
+          "current_signal": {
+            "signal": "LONG",
+            "score": 65,
+            "threshold": 65,
+            "price": 772.489990234375,
+            "as_of": "2026-08-12 00:00:00",
+            "confidence": 0.87,
+            "note": "Directional model signal, not a guaranteed forecast."
+          },
           "symbol": "SPY",
           "agent_vote": {
             "votes": {
@@ -249,13 +349,22 @@
         },
         {
           "start": 100.0,
-          "end": 110.04539295447445,
-          "return": 0.10045392954474441,
-          "max_drawdown": -0.02761834385032136,
+          "end": 110.04539761718226,
+          "return": 0.10045397617182261,
+          "max_drawdown": -0.02761834385032158,
           "trades": 27,
-          "profit_factor": 2.7935650148092943,
+          "profit_factor": 2.7935664790783385,
           "win_rate": 0.4444444444444444,
           "halted": false,
+          "current_signal": {
+            "signal": "HOLD",
+            "score": 55,
+            "threshold": 65,
+            "price": 723.7000122070312,
+            "as_of": "2026-08-12 00:00:00",
+            "confidence": 0.73,
+            "note": "Directional model signal, not a guaranteed forecast."
+          },
           "symbol": "QQQ",
           "agent_vote": {
             "votes": {
@@ -269,13 +378,22 @@
         },
         {
           "start": 100.0,
-          "end": 99.66456887053053,
-          "return": -0.0033543112946946563,
-          "max_drawdown": -0.039485848787913724,
+          "end": 99.6645615654432,
+          "return": -0.0033543843455681177,
+          "max_drawdown": -0.039485996030519055,
           "trades": 33,
-          "profit_factor": 0.952120177595855,
+          "profit_factor": 0.9521193133748613,
           "win_rate": 0.3939393939393939,
           "halted": false,
+          "current_signal": {
+            "signal": "LONG",
+            "score": 75,
+            "threshold": 65,
+            "price": 302.7099914550781,
+            "as_of": "2026-08-12 00:00:00",
+            "confidence": 1.0,
+            "note": "Directional model signal, not a guaranteed forecast."
+          },
           "symbol": "IWM",
           "agent_vote": {
             "votes": {
@@ -296,6 +414,15 @@
           "profit_factor": 3.7015148341454696,
           "win_rate": 0.45161290322580644,
           "halted": false,
+          "current_signal": {
+            "signal": "HOLD",
+            "score": 55,
+            "threshold": 65,
+            "price": 404.9200134277344,
+            "as_of": "2026-08-12 00:00:00",
+            "confidence": 0.73,
+            "note": "Directional model signal, not a guaranteed forecast."
+          },
           "symbol": "GLD",
           "agent_vote": {
             "votes": {
@@ -309,13 +436,22 @@
         },
         {
           "start": 100.0,
-          "end": 95.1108820902001,
-          "return": -0.048891179097998894,
-          "max_drawdown": -0.052257247929017314,
+          "end": 95.11082752228432,
+          "return": -0.04889172477715675,
+          "max_drawdown": -0.05225775665424304,
           "trades": 27,
-          "profit_factor": 0.3657932996163044,
+          "profit_factor": 0.3657903568472564,
           "win_rate": 0.14814814814814814,
           "halted": false,
+          "current_signal": {
+            "signal": "EXIT/CASH",
+            "score": 10,
+            "threshold": 65,
+            "price": 82.11000061035156,
+            "as_of": "2026-08-12 00:00:00",
+            "confidence": 0.13,
+            "note": "Directional model signal, not a guaranteed forecast."
+          },
           "symbol": "TLT",
           "agent_vote": {
             "votes": {
