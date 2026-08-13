@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-13T04:10:54.261994+00:00",
+  "generated_at": "2026-08-13T04:12:43.659056+00:00",
   "mode": "DRY_RUN",
   "starting_cash": 25.0,
   "universe_size": 20,
@@ -81,7 +81,7 @@
           "score": 45.0,
           "volume": 151000.0,
           "as_of": "2026-08-12 00:00:00",
-          "return_20d": 0.18390806067670873,
+          "return_20d": 0.17045446643323925,
           "analyst_a": true,
           "analyst_b": false,
           "decision": "PASS"
@@ -209,7 +209,7 @@
           "score": 45.0,
           "volume": 151000.0,
           "as_of": "2026-08-12 00:00:00",
-          "return_20d": 0.18390806067670873,
+          "return_20d": 0.17045446643323925,
           "analyst_a": true,
           "analyst_b": false,
           "decision": "PASS"
@@ -337,7 +337,7 @@
           "score": 45.0,
           "volume": 151000.0,
           "as_of": "2026-08-12 00:00:00",
-          "return_20d": 0.18390806067670873,
+          "return_20d": 0.17045446643323925,
           "analyst_a": true,
           "analyst_b": false,
           "decision": "PASS"
@@ -472,7 +472,7 @@
     "max_reruns_per_run": 1
   },
   "controller": {
-    "evaluated_at": "2026-08-13T04:10:54.262058+00:00",
+    "evaluated_at": "2026-08-13T04:12:43.659121+00:00",
     "decisions": [
       {
         "agent": 1,
