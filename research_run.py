@@ -1,7 +1,7 @@
-import io
 import json
+import io
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 import numpy as np
@@ -15,6 +15,12 @@ REPORTS.mkdir(exist_ok=True)
 
 UNIVERSE = ["SNDL", "PLUG", "OPEN", "CLOV", "NOK", "BB", "MARA", "RIOT", "DNA", "JOBY", "BBAI", "SIRI", "GPRO", "LCID", "WKHS"]
 STARTING_CASH = 25.0
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124 Safari/537.36",
+    "Accept": "application/json,text/plain,*/*",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Referer": "https://www.nasdaq.com/",
+}
 
 
 def normalize(df):
@@ -34,10 +40,8 @@ def normalize(df):
 def yahoo_batch(symbols, attempts=3):
     for attempt in range(attempts):
         try:
-            data = yf.download(
-                tickers=symbols, period="6mo", interval="1d", auto_adjust=True,
-                progress=False, threads=True, group_by="ticker", timeout=20,
-            )
+            data = yf.download(tickers=symbols, period="6mo", interval="1d", auto_adjust=True,
+                               progress=False, threads=True, group_by="ticker", timeout=20)
             if data is None or data.empty:
                 raise RuntimeError("empty Yahoo response")
             result = {}
@@ -67,11 +71,10 @@ def yahoo_batch(symbols, attempts=3):
 
 
 def stooq_fallback(symbol, attempts=2):
-    # No key required. Historical daily data only; never represented as live quotes.
     url = f"https://stooq.com/q/d/l/?s={symbol.lower()}.us&i=d"
     for attempt in range(attempts):
         try:
-            r = requests.get(url, timeout=20, headers={"User-Agent": "Mozilla/5.0"})
+            r = requests.get(url, timeout=20, headers=HEADERS)
             r.raise_for_status()
             if not r.text.strip() or "No data" in r.text:
                 raise RuntimeError("no Stooq data")
@@ -79,12 +82,42 @@ def stooq_fallback(symbol, attempts=2):
             if "Date" not in df or "Close" not in df or "Volume" not in df:
                 raise RuntimeError("unexpected Stooq response")
             df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
-            df = df.set_index("Date")
-            df = normalize(df)
-            if df is not None:
-                return df.tail(252)
+            return normalize(df.set_index("Date"))
         except Exception as exc:
             print(f"Stooq {symbol} attempt {attempt + 1} failed: {exc}")
+            time.sleep(2 + attempt * 2)
+    return None
+
+
+def nasdaq_fallback(symbol, attempts=3):
+    """Keyless historical fallback. Nasdaq's public quote endpoint supplies recent daily rows."""
+    end = datetime.now(timezone.utc).date()
+    start = end - timedelta(days=210)
+    url = f"https://api.nasdaq.com/api/quote/{symbol}/historical?assetclass=stocks&fromdate={start.isoformat()}&limit=500&todate={end.isoformat()}"
+    for attempt in range(attempts):
+        try:
+            r = requests.get(url, timeout=20, headers=HEADERS)
+            r.raise_for_status()
+            payload = r.json()
+            rows = ((payload.get("data") or {}).get("tradesTable") or {}).get("rows") or []
+            if not rows:
+                raise RuntimeError("empty Nasdaq historical response")
+            records = []
+            for row in rows:
+                date = pd.to_datetime(row.get("date"), errors="coerce")
+                close = pd.to_numeric(str(row.get("close", "")).replace("$", "").replace(",", ""), errors="coerce")
+                volume = pd.to_numeric(str(row.get("volume", "")).replace(",", ""), errors="coerce")
+                if pd.notna(date) and pd.notna(close):
+                    records.append({"Date": date, "Close": close, "Volume": volume if pd.notna(volume) else 0})
+            if not records:
+                raise RuntimeError("Nasdaq returned no parseable rows")
+            df = pd.DataFrame(records).set_index("Date").sort_index()
+            df = normalize(df)
+            if df is not None:
+                return df
+            raise RuntimeError("Nasdaq returned fewer than 50 usable rows")
+        except Exception as exc:
+            print(f"Nasdaq {symbol} attempt {attempt + 1} failed: {exc}")
             time.sleep(2 + attempt * 2)
     return None
 
@@ -97,10 +130,13 @@ def load_data(symbols):
             continue
         print(f"{symbol}: Yahoo unavailable; trying keyless Stooq fallback")
         df = stooq_fallback(symbol)
+        if df is None:
+            print(f"{symbol}: Stooq unavailable; trying keyless Nasdaq fallback")
+            df = nasdaq_fallback(symbol)
         if df is not None:
             data[symbol] = df
         else:
-            errors[symbol] = "No usable historical data from Yahoo Finance or Stooq"
+            errors[symbol] = "No usable historical data from Yahoo, Stooq, or Nasdaq"
     return data, errors
 
 
@@ -130,7 +166,7 @@ def main():
     market.sort(key=lambda x: x["score"], reverse=True)
     penny_candidates.sort(key=lambda x: x["score"], reverse=True)
     if not market:
-        raise RuntimeError("No usable market data from Yahoo Finance or Stooq")
+        raise RuntimeError("No usable market data from Yahoo, Stooq, or Nasdaq")
     if not penny_candidates:
         raise RuntimeError("Market data arrived, but no current sub-$5 candidates were found")
 
@@ -148,20 +184,19 @@ def main():
         analyst_a = chosen["score"] >= 55 and chosen["volatility_pct"] < 150
         analyst_b = chosen["volume_vs_20d"] >= 0.8 and chosen["return_20d_pct"] > -10
         decision = "PAPER BUY" if analyst_a and analyst_b and chosen["signal"] == "BUY (PAPER)" else "WATCH / NO TRADE"
-        agents.append({
-            "agent": i, "strategy": style, "virtual_cash": STARTING_CASH, "decision": decision, "selection": chosen,
+        agents.append({"agent": i, "strategy": style, "virtual_cash": STARTING_CASH, "decision": decision,
+            "selection": chosen,
             "analysts": {"Analyst A": "PASS" if analyst_a else "REVIEW", "Analyst B": "PASS" if analyst_b else "REVIEW"},
             "discussion": [
                 f"Lead: ranked {len(penny_candidates)} current sub-$5 candidates using {style} rules.",
                 f"Analyst A: {'support' if analyst_a else 'do not support'} based on score and volatility.",
                 f"Analyst B: {'support' if analyst_b else 'do not support'} based on volume and recent return.",
                 f"Lead: final status is {decision}. No live order is submitted."
-            ]
-        })
+            ]})
 
     now = datetime.now(timezone.utc).isoformat()
     report = {"generated_at": now, "mode": "PAPER_ONLY",
-              "data_source": "Yahoo Finance via yfinance; Stooq historical fallback",
+              "data_source": "Yahoo Finance via yfinance; Stooq; Nasdaq historical fallback",
               "universe": UNIVERSE, "eligible_under_5": len(penny_candidates),
               "market": market, "agents": agents, "data_errors": errors}
     (REPORTS / "latest.json").write_text(json.dumps(report, indent=2))
