@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-13T05:11:39.529101+00:00",
+  "generated_at": "2026-08-13T05:13:17.101538+00:00",
   "mode": "PAPER_ONLY",
   "data_source": "Direct Yahoo Finance chart endpoint (keyless HTTP)",
   "latest_market_date": "2026-08-12",
@@ -23,18 +23,6 @@
   "eligible_under_5": 7,
   "market": [
     {
-      "symbol": "WKHS",
-      "price": 3.09,
-      "score": 85,
-      "signal": "BUY (PAPER)",
-      "return_20d_pct": 18.39,
-      "volatility_pct": 65.13,
-      "volume_vs_20d": 1.76,
-      "history_start": "2026-02-13",
-      "history_end": "2026-08-12",
-      "bars": 124
-    },
-    {
       "symbol": "PLUG",
       "price": 2.29,
       "score": 65,
@@ -45,6 +33,18 @@
       "history_start": "2026-02-13",
       "history_end": "2026-08-12",
       "bars": 124
+    },
+    {
+      "symbol": "WKHS",
+      "price": 3.09,
+      "score": 65,
+      "signal": "BUY (PAPER)",
+      "return_20d_pct": 17.05,
+      "volatility_pct": 65.28,
+      "volume_vs_20d": 1.7,
+      "history_start": "2026-02-13",
+      "history_end": "2026-08-12",
+      "bars": 122
     },
     {
       "symbol": "JOBY",
@@ -123,12 +123,12 @@
       "price": 28.44,
       "score": 45,
       "signal": "WATCH",
-      "return_20d_pct": -7.21,
-      "volatility_pct": 39.18,
-      "volume_vs_20d": 1.44,
+      "return_20d_pct": -7.27,
+      "volatility_pct": 39.83,
+      "volume_vs_20d": 1.45,
       "history_start": "2026-02-13",
       "history_end": "2026-08-12",
-      "bars": 124
+      "bars": 122
     },
     {
       "symbol": "SNDL",
@@ -212,14 +212,14 @@
       "selection": {
         "symbol": "WKHS",
         "price": 3.09,
-        "score": 85,
+        "score": 65,
         "signal": "BUY (PAPER)",
-        "return_20d_pct": 18.39,
-        "volatility_pct": 65.13,
-        "volume_vs_20d": 1.76,
+        "return_20d_pct": 17.05,
+        "volatility_pct": 65.28,
+        "volume_vs_20d": 1.7,
         "history_start": "2026-02-13",
         "history_end": "2026-08-12",
-        "bars": 124
+        "bars": 122
       },
       "analysts": {
         "Analyst A": "PASS",
@@ -266,13 +266,13 @@
       "virtual_cash": 25.0,
       "decision": "PAPER BUY",
       "selection": {
-        "symbol": "WKHS",
-        "price": 3.09,
-        "score": 85,
+        "symbol": "PLUG",
+        "price": 2.29,
+        "score": 65,
         "signal": "BUY (PAPER)",
-        "return_20d_pct": 18.39,
-        "volatility_pct": 65.13,
-        "volume_vs_20d": 1.76,
+        "return_20d_pct": 3.62,
+        "volatility_pct": 65.04,
+        "volume_vs_20d": 1.53,
         "history_start": "2026-02-13",
         "history_end": "2026-08-12",
         "bars": 124
