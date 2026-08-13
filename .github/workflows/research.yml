@@ -2,8 +2,6 @@ name: Keyless Market Research
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
   schedule:
     - cron: '30 14 * * 1-5'
 
@@ -39,7 +37,7 @@ jobs:
           assert len(r['agents'])==4
           print('Agents:', len(r['agents']), 'Market records:', len(r['market']))
           PY
-      - name: Publish report to Pages source
+      - name: Publish report to repository
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
