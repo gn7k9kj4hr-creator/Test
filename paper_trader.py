@@ -1,31 +1,28 @@
-import alpaca_trade_api as tradeapi
+"""Local paper broker. No API keys, broker account, or real orders required."""
 from datetime import datetime
 
 class PaperTrader:
-    def __init__(self, api_key, secret_key):
-        self.api = tradeapi.REST(api_key=api_key, secret_key=secret_key, base_url='https://paper-api.alpaca.markets')
-        self.trades_log = []
+    def __init__(self, starting_cash=10000):
+        self.cash=float(starting_cash); self.positions={}; self.trades_log=[]
 
-    def execute_trade(self, ticker, quantity, side='buy', strategy_name='Unknown'):
-        if side not in ('buy', 'sell'):
-            raise ValueError('side must be buy or sell')
-        try:
-            order = self.api.submit_order(symbol=ticker, qty=quantity, side=side, type='market', time_in_force='day')
-            record = {'timestamp': datetime.now().isoformat(), 'ticker': ticker, 'quantity': quantity,
-                      'side': side, 'strategy': strategy_name, 'order_id': order.id}
-            self.trades_log.append(record)
-            print(f'✓ {side.upper()} {quantity} {ticker} via {strategy_name}')
-            return order
-        except Exception as e:
-            print(f'✗ Paper trade failed: {e}')
-            return None
+    def execute_trade(self,ticker,quantity,side='buy',strategy_name='Unknown',price=None):
+        if side not in ('buy','sell') or quantity<=0 or price is None: return None
+        cost=float(price)*float(quantity)
+        if side=='buy':
+            if cost>self.cash: return None
+            self.cash-=cost; p=self.positions.setdefault(ticker,{'qty':0,'avg_price':0.0})
+            total=p['qty']+quantity; p['avg_price']=((p['qty']*p['avg_price'])+cost)/total; p['qty']=total
+        else:
+            p=self.positions.get(ticker)
+            if not p or p['qty']<quantity: return None
+            self.cash+=cost; p['qty']-=quantity
+            if p['qty']==0: del self.positions[ticker]
+        rec={'timestamp':datetime.now().isoformat(),'ticker':ticker,'quantity':quantity,'side':side,'price':float(price),'strategy':strategy_name}
+        self.trades_log.append(rec); return rec
 
-    def get_account_value(self):
-        account = self.api.get_account()
-        return {'portfolio_value': float(account.portfolio_value), 'cash': float(account.cash),
-                'buying_power': float(account.buying_power)}
+    def get_account_value(self,prices=None):
+        prices=prices or {}; market=sum(p['qty']*float(prices.get(s,p['avg_price'])) for s,p in self.positions.items())
+        return {'portfolio_value':self.cash+market,'cash':self.cash,'buying_power':self.cash}
 
-    def get_positions(self):
-        positions = self.api.list_positions()
-        return {p.symbol: {'qty': float(p.qty), 'entry_price': float(p.avg_fill_price),
-                           'current_price': float(p.current_price), 'pnl': float(p.unrealized_pl)} for p in positions}
+    def get_positions(self,prices=None):
+        prices=prices or {}; return {s:{'qty':p['qty'],'entry_price':p['avg_price'],'current_price':float(prices.get(s,p['avg_price'])),'pnl':p['qty']*(float(prices.get(s,p['avg_price']))-p['avg_price'])} for s,p in self.positions.items()}
