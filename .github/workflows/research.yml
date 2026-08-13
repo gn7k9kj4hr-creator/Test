@@ -27,29 +27,33 @@ jobs:
       - name: Install dependencies
         run: pip install -r engine/requirements.txt
 
-      - name: Run market-data research and agents
-        run: python -m engine.worker
+      - name: Run real-market-data four-agent paper arena
+        run: python -m engine.arena_controller
 
-      - name: Verify generated report
+      - name: Verify arena report
         run: |
-          test -s reports/latest.json
+          test -s reports/arena_state.json
           python - <<'PY'
           import json
-          with open('reports/latest.json') as f:
-              report=json.load(f)
-          print('Report generated:', report.keys())
+          r=json.load(open('reports/arena_state.json'))
+          assert r.get('mode') == 'DRY_RUN'
+          assert len(r.get('agents', [])) == 4
+          print('Four-agent paper arena verified')
+          for a in r['agents']:
+              s=a.get('selection') or {}
+              print(a['agent'], s.get('symbol'), s.get('decision'))
           PY
 
-      - name: Publish latest report
+      - name: Publish paper-arena report
         run: |
           mkdir -p app/reports
-          cp reports/latest.json app/reports/latest.json
+          cp reports/arena_state.json app/reports/arena.json
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add reports/latest.json app/reports/latest.json
+          git add app/reports/arena.json
           if git diff --cached --quiet; then
-            echo 'No report changes to commit.'
+            echo 'No arena report changes to publish.'
           else
-            git commit -m 'Update live market research report'
+            git commit -m 'Update four-agent paper arena'
             git push
           fi
