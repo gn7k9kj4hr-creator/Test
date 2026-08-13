@@ -7,8 +7,12 @@ def consistency_gate(windows):
     return {"pass":True,"reason":"consistency_pass"}
 
 def champion_challenger(champion,challengers):
-    ranked=sorted(challengers.items(),key=lambda kv:(kv[1]["return"],kv[1]["profit_factor"]),reverse=True)
+    # Worker summaries use avg_return/worst_drawdown/avg_profit_factor.
+    def metrics(x):
+        return (x.get("avg_return", x.get("return", 0)), x.get("avg_profit_factor", x.get("profit_factor", 0)), x.get("worst_drawdown", x.get("max_drawdown", 0)))
+    ranked=sorted(challengers.items(),key=lambda kv:metrics(kv[1])[:2],reverse=True)
     if not ranked:return {"decision":"KEEP_CHAMPION"}
     name,best=ranked[0]
-    if best["return"]>champion["return"] and best["max_drawdown"]>=champion["max_drawdown"]-.03:return {"decision":"PROMOTE_CHALLENGER","winner":name}
+    br,bpf,bdd=metrics(best); cr,cpf,cdd=metrics(champion)
+    if br>cr and bdd>=cdd-.03:return {"decision":"PROMOTE_CHALLENGER","winner":name}
     return {"decision":"KEEP_CHAMPION","best_challenger":name}
