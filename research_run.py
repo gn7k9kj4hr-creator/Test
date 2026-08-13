@@ -9,32 +9,48 @@ ROOT = Path(__file__).parent
 REPORTS = ROOT / "reports"
 REPORTS.mkdir(exist_ok=True)
 
-# Keyless, liquid-ish low-priced/watchlist universe. Failed symbols are skipped.
 UNIVERSE = ["SNDL", "PLUG", "OPEN", "CLOV", "NOK", "BB", "MARA", "RIOT", "DNA", "JOBY", "BBAI", "SIRI", "GPRO", "LCID", "WKHS"]
 STARTING_CASH = 25.0
 
 
-def download(symbol, attempts=4):
+def download_batch(symbols, attempts=5):
+    """Download all symbols in one Yahoo request; individual missing symbols are non-fatal."""
     last_error = None
     for attempt in range(attempts):
         try:
-            # Explicitly request one symbol and normalize both possible yfinance column layouts.
-            df = yf.download(symbol, period="6mo", interval="1d", auto_adjust=True,
-                             progress=False, threads=False, timeout=20)
-            if df is not None and not df.empty:
-                if hasattr(df.columns, "levels"):
-                    df.columns = df.columns.get_level_values(0)
-                required = {"Close", "Volume"}
-                if required.issubset(set(df.columns)):
-                    df = df.dropna(subset=["Close"])
-                    if len(df) >= 50:
-                        return df
-                last_error = "empty or insufficient data"
-            else:
-                last_error = "empty response"
+            data = yf.download(
+                tickers=symbols,
+                period="6mo",
+                interval="1d",
+                auto_adjust=True,
+                progress=False,
+                threads=False,
+                group_by="ticker",
+                timeout=30,
+            )
+            if data is not None and not data.empty:
+                return data
+            last_error = "empty batch response"
         except Exception as exc:
             last_error = str(exc)
-        time.sleep(2 + attempt * 2)
+        time.sleep(3 + attempt * 2)
+    raise RuntimeError(f"Yahoo Finance batch request failed after {attempts} attempts: {last_error}")
+
+
+def extract_symbol(data, symbol):
+    try:
+        if hasattr(data.columns, "levels") and symbol in data.columns.get_level_values(0):
+            df = data[symbol].copy()
+        elif hasattr(data.columns, "levels") and symbol in data.columns.get_level_values(1):
+            df = data.xs(symbol, axis=1, level=1).copy()
+        else:
+            # Single-symbol response can have ordinary columns.
+            df = data.copy()
+        if {"Close", "Volume"}.issubset(df.columns):
+            df = df.dropna(subset=["Close"])
+            return df if len(df) >= 50 else None
+    except Exception:
+        return None
     return None
 
 
@@ -66,24 +82,34 @@ def analyze(symbol, df):
 def main():
     market = []
     errors = {}
+    try:
+        batch = download_batch(UNIVERSE)
+    except RuntimeError as exc:
+        raise RuntimeError(str(exc)) from exc
+
     for symbol in UNIVERSE:
-        df = download(symbol)
+        df = extract_symbol(batch, symbol)
         row = analyze(symbol, df)
         if row:
             market.append(row)
         else:
             errors[symbol] = "No usable 6-month daily data returned by yfinance"
 
+    # Keep the research universe focused on low-priced candidates without making
+    # the whole run fail when a symbol is above the configured threshold.
+    penny_candidates = [row for row in market if row["price"] < 5.0]
     market.sort(key=lambda x: x["score"], reverse=True)
+    penny_candidates.sort(key=lambda x: x["score"], reverse=True)
     if not market:
         raise RuntimeError("No market data was returned by yfinance; refusing to publish an empty report")
 
     styles = ["Momentum", "Trend + Volume", "Balanced", "Risk-aware"]
     agents = []
+    research_pool = penny_candidates if penny_candidates else market
     for i, style in enumerate(styles, 1):
-        ranked = market[:8]
+        ranked = research_pool[:8]
         if style == "Risk-aware":
-            ranked = sorted(market, key=lambda x: (x["volatility_pct"], -x["score"]))[:8]
+            ranked = sorted(research_pool, key=lambda x: (x["volatility_pct"], -x["score"]))[:8]
         elif style == "Momentum":
             ranked = sorted(ranked, key=lambda x: (x["return_20d_pct"], x["score"]), reverse=True)
         elif style == "Trend + Volume":
@@ -95,7 +121,7 @@ def main():
             decision = "PAPER BUY" if analyst_a and analyst_b and chosen["signal"] == "BUY (PAPER)" else "WATCH / NO TRADE"
         else:
             analyst_a = analyst_b = False
-            decision = "NO DATA"
+            decision = "NO ELIGIBLE DATA"
         agents.append({
             "agent": i,
             "strategy": style,
@@ -104,7 +130,7 @@ def main():
             "selection": chosen,
             "analysts": {"Analyst A": "PASS" if analyst_a else "REVIEW", "Analyst B": "PASS" if analyst_b else "REVIEW"},
             "discussion": [
-                f"Lead: I ranked {len(market)} symbols using {style} rules.",
+                f"Lead: I ranked {len(research_pool)} eligible low-priced candidates using {style} rules.",
                 f"Analyst A: {'support' if analyst_a else 'do not support'} the candidate based on score and volatility.",
                 f"Analyst B: {'support' if analyst_b else 'do not support'} the candidate based on volume and recent return.",
                 f"Lead: Final status is {decision}. No live order is submitted.",
@@ -117,6 +143,7 @@ def main():
         "mode": "PAPER_ONLY",
         "data_source": "Yahoo Finance via yfinance",
         "universe": UNIVERSE,
+        "eligible_under_5": len(penny_candidates),
         "market": market,
         "agents": agents,
         "data_errors": errors,
@@ -125,11 +152,12 @@ def main():
     (REPORTS / "status.json").write_text(json.dumps({
         "generated_at": now,
         "symbols": len(market),
+        "eligible_under_5": len(penny_candidates),
         "agents": 4,
         "failed_symbols": len(errors),
         "status": "OK",
     }, indent=2))
-    print(f"Generated {len(market)} market records for 4 paper agents; skipped {len(errors)} symbols")
+    print(f"Generated {len(market)} market records, {len(penny_candidates)} under $5, for 4 paper agents; skipped {len(errors)} symbols")
 
 
 if __name__ == "__main__":
