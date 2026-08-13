@@ -24,7 +24,9 @@ jobs:
           python-version: '3.12'
           cache: pip
       - name: Install keyless market-data dependencies
-        run: python -m pip install --upgrade pip && pip install yfinance==0.2.32 pandas==2.1.1 numpy==1.24.3
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install yfinance==0.2.32 pandas==2.1.1 numpy==1.26.4
       - name: Run four-agent research
         run: python research_run.py
       - name: Verify real report
