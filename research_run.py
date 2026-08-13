@@ -37,7 +37,7 @@ def normalize(df):
     return df if len(df) >= 50 else None
 
 
-def yahoo_batch(symbols, attempts=3):
+def yahoo_batch(symbols, attempts=2):
     for attempt in range(attempts):
         try:
             data = yf.download(tickers=symbols, period="6mo", interval="1d", auto_adjust=True,
@@ -65,8 +65,9 @@ def yahoo_batch(symbols, attempts=3):
                     result[symbols[0]] = df
             return result
         except Exception as exc:
-            print(f"Yahoo attempt {attempt + 1} failed: {exc}")
-            time.sleep(2 + attempt * 2)
+            print(f"Yahoo attempt {attempt + 1}/{attempts} failed: {exc}")
+            if attempt + 1 < attempts:
+                time.sleep(2)
     return {}
 
 
@@ -82,15 +83,17 @@ def stooq_fallback(symbol, attempts=2):
             if "Date" not in df or "Close" not in df or "Volume" not in df:
                 raise RuntimeError("unexpected Stooq response")
             df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
-            return normalize(df.set_index("Date"))
+            df = normalize(df.set_index("Date"))
+            if df is not None:
+                return df
         except Exception as exc:
-            print(f"Stooq {symbol} attempt {attempt + 1} failed: {exc}")
-            time.sleep(2 + attempt * 2)
+            print(f"Stooq {symbol} attempt {attempt + 1}/{attempts} failed: {exc}")
+            if attempt + 1 < attempts:
+                time.sleep(2)
     return None
 
 
-def nasdaq_fallback(symbol, attempts=3):
-    """Keyless historical fallback. Nasdaq's public quote endpoint supplies recent daily rows."""
+def nasdaq_fallback(symbol, attempts=2):
     end = datetime.now(timezone.utc).date()
     start = end - timedelta(days=210)
     url = f"https://api.nasdaq.com/api/quote/{symbol}/historical?assetclass=stocks&fromdate={start.isoformat()}&limit=500&todate={end.isoformat()}"
@@ -111,28 +114,28 @@ def nasdaq_fallback(symbol, attempts=3):
                     records.append({"Date": date, "Close": close, "Volume": volume if pd.notna(volume) else 0})
             if not records:
                 raise RuntimeError("Nasdaq returned no parseable rows")
-            df = pd.DataFrame(records).set_index("Date").sort_index()
-            df = normalize(df)
+            df = normalize(pd.DataFrame(records).set_index("Date").sort_index())
             if df is not None:
                 return df
             raise RuntimeError("Nasdaq returned fewer than 50 usable rows")
         except Exception as exc:
-            print(f"Nasdaq {symbol} attempt {attempt + 1} failed: {exc}")
-            time.sleep(2 + attempt * 2)
+            print(f"Nasdaq {symbol} attempt {attempt + 1}/{attempts} failed: {exc}")
+            if attempt + 1 < attempts:
+                time.sleep(2)
     return None
 
 
 def load_data(symbols):
-    data = yahoo_batch(symbols)
+    data = yahoo_batch(symbols, attempts=2)
     errors = {}
     for symbol in symbols:
         if symbol in data:
             continue
-        print(f"{symbol}: Yahoo unavailable; trying keyless Stooq fallback")
-        df = stooq_fallback(symbol)
+        print(f"{symbol}: Yahoo unavailable; trying Stooq")
+        df = stooq_fallback(symbol, attempts=2)
         if df is None:
-            print(f"{symbol}: Stooq unavailable; trying keyless Nasdaq fallback")
-            df = nasdaq_fallback(symbol)
+            print(f"{symbol}: Stooq unavailable; trying Nasdaq")
+            df = nasdaq_fallback(symbol, attempts=2)
         if df is not None:
             data[symbol] = df
         else:
