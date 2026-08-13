@@ -1,13 +1,17 @@
 name: Keyless Market Research
+
 on:
   workflow_dispatch:
   schedule:
     - cron: '30 14 * * 1-5'
+
 permissions:
   contents: write
+
 concurrency:
   group: paper-research
   cancel-in-progress: true
+
 jobs:
   research:
     runs-on: ubuntu-latest
@@ -18,24 +22,35 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install keyless data dependency
-        run: pip install yfinance==0.2.32 pandas==2.1.1 numpy==1.24.3
-      - name: Run four-agent market research
-        run: python market_research.py
-      - name: Verify report
+          cache: pip
+      - name: Install keyless market-data dependencies
+        run: python -m pip install --upgrade pip && pip install yfinance==0.2.32 pandas==2.1.1 numpy==1.24.3
+      - name: Run four-agent research
+        run: python research_run.py
+      - name: Verify real report
         run: |
           test -s reports/latest.json
+          test -s reports/status.json
           python - <<'PY'
           import json
           r=json.load(open('reports/latest.json'))
           assert r['mode']=='PAPER_ONLY'
+          assert r['data_source']=='Yahoo Finance via yfinance'
           assert len(r['agents'])==4
-          assert len(r['market_rows'])>0
-          print('Agents:', len(r['agents']), 'Market records:', len(r['market_rows']))
+          assert len(r['market'])>0
+          print(f"PASS: {len(r['agents'])} agents, {len(r['market'])} market records")
+          for a in r['agents']:
+              s=a.get('selection') or {}
+              print(a['agent'], s.get('symbol'), a['decision'])
           PY
       - name: Publish report
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add reports/latest.json
-          if git diff --cached --quiet; then echo 'No report changes'; else git commit -m 'Update paper market research report'; git push; fi
+          git add reports/latest.json reports/status.json
+          if git diff --cached --quiet; then
+            echo 'No report changes'
+          else
+            git commit -m 'Update keyless market research report'
+            git push
+          fi
