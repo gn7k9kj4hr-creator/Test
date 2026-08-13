@@ -1,6 +1,8 @@
 name: Run AI Trading Research
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
   schedule:
     - cron: '15 21 * * 1-5'
@@ -25,8 +27,18 @@ jobs:
       - name: Install dependencies
         run: pip install -r engine/requirements.txt
 
-      - name: Fetch current market data and run agents
+      - name: Run market-data research and agents
         run: python -m engine.worker
+
+      - name: Verify generated report
+        run: |
+          test -s reports/latest.json
+          python - <<'PY'
+          import json
+          with open('reports/latest.json') as f:
+              report=json.load(f)
+          print('Report generated:', report.keys())
+          PY
 
       - name: Publish latest report
         run: |
@@ -38,6 +50,6 @@ jobs:
           if git diff --cached --quiet; then
             echo 'No report changes to commit.'
           else
-            git commit -m 'Update market research report'
+            git commit -m 'Update live market research report'
             git push
           fi
