@@ -1,26 +1,41 @@
-# AI Trading Lab — Mobile/PWA v5
+# AI Trading Agent
 
-A **paper-trading / research-only** dashboard. It contains **no live order execution**.
+A compact **research and paper-trading** agent rebuilt around the six requested files.
 
-## What changed
-- Mobile-first PWA that works in Safari/Chrome and can be added to a phone home screen.
-- Dashboard can load `reports/latest.json` automatically when hosted, or import a JSON report manually.
-- Better simulator accounting: daily/weekly loss stops, hard drawdown stop, mark-to-market equity, and safer data validation.
-- GitHub Actions workflow runs the research engine and publishes the static dashboard to GitHub Pages.
-- No API keys or broker credentials are required.
+## Pipeline
 
-## Run locally
+1. Generate five candidate strategies with an LLM.
+2. Download historical market data with yfinance.
+3. Backtest each candidate with Backtrader.
+4. Require return, Sharpe, win-rate, and trade-count thresholds.
+5. Send approved orders only to the **Alpaca paper-trading endpoint**.
+6. Print paper-account value, cash, positions, and P&L.
+
+No live-money brokerage endpoint is configured by this project.
+
+## Files
+
+- `requirements.txt` — pinned Python dependencies
+- `.env` — placeholder environment variables; replace locally and never put real secrets in Git
+- `strategy_generator.py` — LLM strategy generation
+- `backtester.py` — historical strategy evaluation
+- `paper_trader.py` — Alpaca paper-trading adapter
+- `main.py` — end-to-end cycle
+
+## Setup
+
 ```bash
-pip install -r engine/requirements.txt
-python -m engine.worker
-python -m http.server 8000 -d app
+mkdir ai-trading-agent
+cd ai-trading-agent
+pip install -r requirements.txt
 ```
-Then open `http://localhost:8000`.
 
-## GitHub Pages
-1. Create a GitHub repository and upload this folder's contents.
-2. In **Settings → Pages**, choose **GitHub Actions** as the source.
-3. The included workflow runs the simulator and deploys the `app/` folder.
-4. The dashboard will read `app/reports/latest.json` after the workflow copies the generated report there.
+Set your credentials in a **local** `.env` file, then run:
 
-> This is a research tool, not financial advice. Backtests can be misleading and do not predict future performance.
+```bash
+python main.py
+```
+
+The default example backtests and paper-trades `SPY`, matching the supplied specification. If you adapt it to a different research universe, keep execution on a paper account while testing.
+
+> This project is for software/research experimentation and paper trading. Backtests are hypothetical and do not predict future results.
