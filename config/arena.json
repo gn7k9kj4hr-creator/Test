@@ -1,0 +1,19 @@
+{
+  "agents": 4,
+  "starting_cash": 25.0,
+  "max_positions": 2,
+  "max_position_pct": 0.45,
+  "max_trade_pct": 0.45,
+  "allow_fractional_paper_shares": true,
+  "universe_rules": {
+    "max_price": 5.0,
+    "min_price": 0.20,
+    "min_average_volume": 100000,
+    "exclude leveraged_etfs": true,
+    "exclude_options": true,
+    "paper_only": true
+  },
+  "analysts_per_agent": 2,
+  "max_strategy_adjustments_per_run": 2,
+  "max_reruns_per_run": 1
+}
