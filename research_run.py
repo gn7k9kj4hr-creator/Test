@@ -1,8 +1,12 @@
+import io
 import json
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+
 import numpy as np
+import pandas as pd
+import requests
 import yfinance as yf
 
 ROOT = Path(__file__).parent
@@ -13,45 +17,91 @@ UNIVERSE = ["SNDL", "PLUG", "OPEN", "CLOV", "NOK", "BB", "MARA", "RIOT", "DNA", 
 STARTING_CASH = 25.0
 
 
-def download_batch(symbols, attempts=5):
-    """Download all symbols in one Yahoo request; individual missing symbols are non-fatal."""
-    last_error = None
+def normalize(df):
+    if df is None or df.empty:
+        return None
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = df.columns.get_level_values(0)
+    if not {"Close", "Volume"}.issubset(df.columns):
+        return None
+    df = df[["Close", "Volume"]].copy()
+    df["Close"] = pd.to_numeric(df["Close"], errors="coerce")
+    df["Volume"] = pd.to_numeric(df["Volume"], errors="coerce")
+    df = df.dropna(subset=["Close"])
+    return df if len(df) >= 50 else None
+
+
+def yahoo_batch(symbols, attempts=3):
     for attempt in range(attempts):
         try:
             data = yf.download(
-                tickers=symbols,
-                period="6mo",
-                interval="1d",
-                auto_adjust=True,
-                progress=False,
-                threads=False,
-                group_by="ticker",
-                timeout=30,
+                tickers=symbols, period="6mo", interval="1d", auto_adjust=True,
+                progress=False, threads=True, group_by="ticker", timeout=20,
             )
-            if data is not None and not data.empty:
-                return data
-            last_error = "empty batch response"
+            if data is None or data.empty:
+                raise RuntimeError("empty Yahoo response")
+            result = {}
+            if isinstance(data.columns, pd.MultiIndex):
+                for symbol in symbols:
+                    try:
+                        if symbol in data.columns.get_level_values(0):
+                            df = data[symbol].copy()
+                        elif symbol in data.columns.get_level_values(1):
+                            df = data.xs(symbol, axis=1, level=1).copy()
+                        else:
+                            continue
+                        df = normalize(df)
+                        if df is not None:
+                            result[symbol] = df
+                    except Exception:
+                        continue
+            elif len(symbols) == 1:
+                df = normalize(data)
+                if df is not None:
+                    result[symbols[0]] = df
+            return result
         except Exception as exc:
-            last_error = str(exc)
-        time.sleep(3 + attempt * 2)
-    raise RuntimeError(f"Yahoo Finance batch request failed after {attempts} attempts: {last_error}")
+            print(f"Yahoo attempt {attempt + 1} failed: {exc}")
+            time.sleep(2 + attempt * 2)
+    return {}
 
 
-def extract_symbol(data, symbol):
-    try:
-        if hasattr(data.columns, "levels") and symbol in data.columns.get_level_values(0):
-            df = data[symbol].copy()
-        elif hasattr(data.columns, "levels") and symbol in data.columns.get_level_values(1):
-            df = data.xs(symbol, axis=1, level=1).copy()
-        else:
-            # Single-symbol response can have ordinary columns.
-            df = data.copy()
-        if {"Close", "Volume"}.issubset(df.columns):
-            df = df.dropna(subset=["Close"])
-            return df if len(df) >= 50 else None
-    except Exception:
-        return None
+def stooq_fallback(symbol, attempts=2):
+    # No key required. Historical daily data only; never represented as live quotes.
+    url = f"https://stooq.com/q/d/l/?s={symbol.lower()}.us&i=d"
+    for attempt in range(attempts):
+        try:
+            r = requests.get(url, timeout=20, headers={"User-Agent": "Mozilla/5.0"})
+            r.raise_for_status()
+            if not r.text.strip() or "No data" in r.text:
+                raise RuntimeError("no Stooq data")
+            df = pd.read_csv(io.StringIO(r.text))
+            if "Date" not in df or "Close" not in df or "Volume" not in df:
+                raise RuntimeError("unexpected Stooq response")
+            df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+            df = df.set_index("Date")
+            df = normalize(df)
+            if df is not None:
+                return df.tail(252)
+        except Exception as exc:
+            print(f"Stooq {symbol} attempt {attempt + 1} failed: {exc}")
+            time.sleep(2 + attempt * 2)
     return None
+
+
+def load_data(symbols):
+    data = yahoo_batch(symbols)
+    errors = {}
+    for symbol in symbols:
+        if symbol in data:
+            continue
+        print(f"{symbol}: Yahoo unavailable; trying keyless Stooq fallback")
+        df = stooq_fallback(symbol)
+        if df is not None:
+            data[symbol] = df
+        else:
+            errors[symbol] = "No usable historical data from Yahoo Finance or Stooq"
+    return data, errors
 
 
 def analyze(symbol, df):
@@ -68,95 +118,55 @@ def analyze(symbol, df):
     volatility = float(close.pct_change().tail(20).std() * np.sqrt(252))
     score = 50 + (10 if price > sma20 else -10) + (10 if sma20 > sma50 else -10) + (10 if ret20 > 0 else -10) + (5 if last_vol > avg_vol else 0)
     signal = "BUY (PAPER)" if score >= 65 else "WATCH" if score >= 45 else "AVOID"
-    return {
-        "symbol": symbol,
-        "price": round(price, 4),
-        "score": round(score, 1),
-        "signal": signal,
-        "return_20d_pct": round(ret20 * 100, 2),
-        "volatility_pct": round(volatility * 100, 2),
-        "volume_vs_20d": round(last_vol / avg_vol, 2) if avg_vol else 0,
-    }
+    return {"symbol": symbol, "price": round(price, 4), "score": round(score, 1), "signal": signal,
+            "return_20d_pct": round(ret20 * 100, 2), "volatility_pct": round(volatility * 100, 2),
+            "volume_vs_20d": round(last_vol / avg_vol, 2) if avg_vol else 0}
 
 
 def main():
-    market = []
-    errors = {}
-    try:
-        batch = download_batch(UNIVERSE)
-    except RuntimeError as exc:
-        raise RuntimeError(str(exc)) from exc
-
-    for symbol in UNIVERSE:
-        df = extract_symbol(batch, symbol)
-        row = analyze(symbol, df)
-        if row:
-            market.append(row)
-        else:
-            errors[symbol] = "No usable 6-month daily data returned by yfinance"
-
-    # Keep the research universe focused on low-priced candidates without making
-    # the whole run fail when a symbol is above the configured threshold.
-    penny_candidates = [row for row in market if row["price"] < 5.0]
+    data, errors = load_data(UNIVERSE)
+    market = [row for symbol, df in data.items() if (row := analyze(symbol, df)) is not None]
+    penny_candidates = [row for row in market if 0 < row["price"] < 5]
     market.sort(key=lambda x: x["score"], reverse=True)
     penny_candidates.sort(key=lambda x: x["score"], reverse=True)
     if not market:
-        raise RuntimeError("No market data was returned by yfinance; refusing to publish an empty report")
+        raise RuntimeError("No usable market data from Yahoo Finance or Stooq")
+    if not penny_candidates:
+        raise RuntimeError("Market data arrived, but no current sub-$5 candidates were found")
 
     styles = ["Momentum", "Trend + Volume", "Balanced", "Risk-aware"]
     agents = []
-    research_pool = penny_candidates if penny_candidates else market
     for i, style in enumerate(styles, 1):
-        ranked = research_pool[:8]
+        ranked = penny_candidates[:8]
         if style == "Risk-aware":
-            ranked = sorted(research_pool, key=lambda x: (x["volatility_pct"], -x["score"]))[:8]
+            ranked = sorted(penny_candidates, key=lambda x: (x["volatility_pct"], -x["score"]))[:8]
         elif style == "Momentum":
             ranked = sorted(ranked, key=lambda x: (x["return_20d_pct"], x["score"]), reverse=True)
         elif style == "Trend + Volume":
             ranked = sorted(ranked, key=lambda x: (x["volume_vs_20d"], x["score"]), reverse=True)
-        chosen = ranked[0] if ranked else None
-        if chosen:
-            analyst_a = chosen["score"] >= 55 and chosen["volatility_pct"] < 150
-            analyst_b = chosen["volume_vs_20d"] >= 0.8 and chosen["return_20d_pct"] > -10
-            decision = "PAPER BUY" if analyst_a and analyst_b and chosen["signal"] == "BUY (PAPER)" else "WATCH / NO TRADE"
-        else:
-            analyst_a = analyst_b = False
-            decision = "NO ELIGIBLE DATA"
+        chosen = ranked[0]
+        analyst_a = chosen["score"] >= 55 and chosen["volatility_pct"] < 150
+        analyst_b = chosen["volume_vs_20d"] >= 0.8 and chosen["return_20d_pct"] > -10
+        decision = "PAPER BUY" if analyst_a and analyst_b and chosen["signal"] == "BUY (PAPER)" else "WATCH / NO TRADE"
         agents.append({
-            "agent": i,
-            "strategy": style,
-            "virtual_cash": STARTING_CASH,
-            "decision": decision,
-            "selection": chosen,
+            "agent": i, "strategy": style, "virtual_cash": STARTING_CASH, "decision": decision, "selection": chosen,
             "analysts": {"Analyst A": "PASS" if analyst_a else "REVIEW", "Analyst B": "PASS" if analyst_b else "REVIEW"},
             "discussion": [
-                f"Lead: I ranked {len(research_pool)} eligible low-priced candidates using {style} rules.",
-                f"Analyst A: {'support' if analyst_a else 'do not support'} the candidate based on score and volatility.",
-                f"Analyst B: {'support' if analyst_b else 'do not support'} the candidate based on volume and recent return.",
-                f"Lead: Final status is {decision}. No live order is submitted.",
-            ],
+                f"Lead: ranked {len(penny_candidates)} current sub-$5 candidates using {style} rules.",
+                f"Analyst A: {'support' if analyst_a else 'do not support'} based on score and volatility.",
+                f"Analyst B: {'support' if analyst_b else 'do not support'} based on volume and recent return.",
+                f"Lead: final status is {decision}. No live order is submitted."
+            ]
         })
 
     now = datetime.now(timezone.utc).isoformat()
-    report = {
-        "generated_at": now,
-        "mode": "PAPER_ONLY",
-        "data_source": "Yahoo Finance via yfinance",
-        "universe": UNIVERSE,
-        "eligible_under_5": len(penny_candidates),
-        "market": market,
-        "agents": agents,
-        "data_errors": errors,
-    }
+    report = {"generated_at": now, "mode": "PAPER_ONLY",
+              "data_source": "Yahoo Finance via yfinance; Stooq historical fallback",
+              "universe": UNIVERSE, "eligible_under_5": len(penny_candidates),
+              "market": market, "agents": agents, "data_errors": errors}
     (REPORTS / "latest.json").write_text(json.dumps(report, indent=2))
-    (REPORTS / "status.json").write_text(json.dumps({
-        "generated_at": now,
-        "symbols": len(market),
-        "eligible_under_5": len(penny_candidates),
-        "agents": 4,
-        "failed_symbols": len(errors),
-        "status": "OK",
-    }, indent=2))
+    (REPORTS / "status.json").write_text(json.dumps({"generated_at": now, "symbols": len(market),
+        "eligible_under_5": len(penny_candidates), "agents": 4, "failed_symbols": len(errors), "status": "OK"}, indent=2))
     print(f"Generated {len(market)} market records, {len(penny_candidates)} under $5, for 4 paper agents; skipped {len(errors)} symbols")
 
 
