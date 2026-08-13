@@ -1,0 +1,21 @@
+name: Run research and deploy
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r engine/requirements.txt
+      - run: python -m engine.worker
+      - run: cp reports/latest.json app/reports/latest.json
+      - uses: actions/upload-pages-artifact@v3
+        with: {path: app}
+      - uses: actions/deploy-pages@v4
