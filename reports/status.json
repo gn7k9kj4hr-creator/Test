@@ -1,8 +1,9 @@
 {
-  "generated_at": "2026-08-14T17:40:46.997466+00:00",
-  "symbols": 15,
-  "eligible_under_5": 7,
+  "generated_at": "2026-08-14T22:41:51.361348+00:00",
+  "symbols": 27,
+  "candidates": 15,
   "agents": 4,
+  "paper_budget": 20.0,
   "failed_symbols": 0,
   "latest_market_date": "2026-08-14",
   "data_source": "Direct Yahoo Finance chart endpoint (keyless HTTP)",
