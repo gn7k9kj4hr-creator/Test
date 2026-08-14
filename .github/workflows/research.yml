@@ -36,8 +36,6 @@ jobs:
           done
       - name: Run four-agent research with retries
         shell: bash
-        env:
-          PYTHONUNBUFFERED: '1'
         run: |
           set -u
           for attempt in {1..10}; do
@@ -63,12 +61,14 @@ jobs:
           from pathlib import Path
           r=json.loads(Path('reports/latest.json').read_text())
           assert r.get('mode') == 'PAPER_ONLY', f"Unexpected mode: {r.get('mode')}"
+          assert r.get('paper_budget') == 20.0, f"Unexpected paper budget: {r.get('paper_budget')}"
           source = r.get('data_source', '')
           assert 'keyless' in source.lower() or 'http' in source.lower() or 'market' in source.lower(), f"Unexpected data source: {source}"
           assert len(r.get('agents', [])) == 4, f"Expected 4 agents, got {len(r.get('agents', []))}"
           assert len(r.get('market', [])) > 0, 'No market records'
-          assert len(r.get('eligible_under_5', [])) >= 0 if isinstance(r.get('eligible_under_5'), list) else r.get('eligible_under_5', 0) >= 1, 'No eligible sub-$5 candidates'
-          print(f"PASS: {len(r['agents'])} agents, {len(r['market'])} market records, source={source}")
+          assert len(r.get('candidates', [])) > 0, 'No research candidates'
+          assert all('hypothetical_shares' in x for x in r['candidates']), 'Missing $20 position sizing'
+          print(f"PASS: {len(r['agents'])} agents, {len(r['market'])} market records, {len(r['candidates'])} candidates, source={source}")
           PY
       - name: Publish report
         run: |
