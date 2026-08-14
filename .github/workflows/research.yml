@@ -2,6 +2,11 @@ name: Keyless Market Research
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'reports/**'
+      - 'README.md'
   schedule:
     - cron: '30 14 * * 1-5'
 
