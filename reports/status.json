@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-10-08T20:02:14.603983+00:00",
+  "generated_at": "2026-10-09T19:37:05.791924+00:00",
   "symbols": 27,
   "candidates": 15,
   "agents": 4,
   "paper_budget": 20.0,
   "failed_symbols": 0,
-  "latest_market_date": "2026-10-08",
+  "latest_market_date": "2026-10-09",
   "data_source": "Direct Yahoo Finance chart endpoint (keyless HTTP)",
   "status": "OK"
 }
