@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-20T21:54:55.197982+00:00",
+  "generated_at": "2026-11-24T01:47:21.555341+00:00",
   "mode": "PAPER_ONLY",
   "paper_budget": 20.0,
   "data_source": "Direct Yahoo Finance chart endpoint (keyless HTTP)",
@@ -49,28 +49,28 @@
       "volume_vs_20d": 2.02,
       "trend": "MIXED",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "PLUG",
-      "price": 0.9565,
+      "price": 0.96,
       "hypothetical_dollars": 20.0,
-      "hypothetical_shares": 20.909566,
+      "hypothetical_shares": 20.833334,
       "score": 6.9,
       "risk_score": 7.2,
       "signal": "AVOID",
-      "return_5d_pct": -13.83,
-      "return_20d_pct": -30.69,
-      "return_60d_pct": -57.86,
-      "volatility_pct": 84.42,
+      "return_5d_pct": -13.51,
+      "return_20d_pct": -30.43,
+      "return_60d_pct": -57.71,
+      "volatility_pct": 84.13,
       "volume_vs_20d": 2.78,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "OPEN",
@@ -84,12 +84,12 @@
       "return_20d_pct": -34.09,
       "return_60d_pct": -61.39,
       "volatility_pct": 134.16,
-      "volume_vs_20d": 2.01,
+      "volume_vs_20d": 2.04,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "CLOV",
@@ -103,12 +103,12 @@
       "return_20d_pct": -18.91,
       "return_60d_pct": -11.82,
       "volatility_pct": 78.47,
-      "volume_vs_20d": 1.28,
+      "volume_vs_20d": 1.35,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "NOK",
@@ -125,9 +125,9 @@
       "volume_vs_20d": 1.28,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "BB",
@@ -141,31 +141,31 @@
       "return_20d_pct": -12.89,
       "return_60d_pct": -10.17,
       "volatility_pct": 71.91,
-      "volume_vs_20d": 1.24,
+      "volume_vs_20d": 1.26,
       "trend": "MIXED",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "MARA",
-      "price": 5.085,
+      "price": 5.09,
       "hypothetical_dollars": 20.0,
-      "hypothetical_shares": 3.933137,
+      "hypothetical_shares": 3.929273,
       "score": 2.6,
       "risk_score": 9.0,
       "signal": "AVOID",
-      "return_5d_pct": -27.25,
-      "return_20d_pct": -27.56,
-      "return_60d_pct": -57.16,
-      "volatility_pct": 119.9,
-      "volume_vs_20d": 1.14,
+      "return_5d_pct": -27.18,
+      "return_20d_pct": -27.49,
+      "return_60d_pct": -57.12,
+      "volatility_pct": 119.75,
+      "volume_vs_20d": 1.15,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "RIOT",
@@ -179,12 +179,12 @@
       "return_20d_pct": 29.53,
       "return_60d_pct": -22.27,
       "volatility_pct": 114.47,
-      "volume_vs_20d": 1.12,
+      "volume_vs_20d": 1.13,
       "trend": "MIXED",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "DNA",
@@ -198,12 +198,12 @@
       "return_20d_pct": -25.33,
       "return_60d_pct": 2.75,
       "volatility_pct": 158.8,
-      "volume_vs_20d": 0.93,
+      "volume_vs_20d": 0.94,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "JOBY",
@@ -217,12 +217,12 @@
       "return_20d_pct": -24.37,
       "return_60d_pct": -49.65,
       "volatility_pct": 88.71,
-      "volume_vs_20d": 1.54,
+      "volume_vs_20d": 1.55,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "BBAI",
@@ -236,12 +236,12 @@
       "return_20d_pct": -26.17,
       "return_60d_pct": -50.47,
       "volatility_pct": 101.16,
-      "volume_vs_20d": 0.83,
+      "volume_vs_20d": 0.84,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "SIRI",
@@ -258,9 +258,9 @@
       "volume_vs_20d": 0.91,
       "trend": "BULLISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "GPRO",
@@ -274,12 +274,12 @@
       "return_20d_pct": -49.7,
       "return_60d_pct": -16.03,
       "volatility_pct": 80.55,
-      "volume_vs_20d": 1.02,
+      "volume_vs_20d": 1.03,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "LCID",
@@ -293,12 +293,12 @@
       "return_20d_pct": -28.98,
       "return_60d_pct": -50.88,
       "volatility_pct": 111.84,
-      "volume_vs_20d": 1.11,
+      "volume_vs_20d": 1.13,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "SOFI",
@@ -312,12 +312,12 @@
       "return_20d_pct": -14.61,
       "return_60d_pct": -34.93,
       "volatility_pct": 76.36,
-      "volume_vs_20d": 1.26,
+      "volume_vs_20d": 1.27,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "F",
@@ -331,12 +331,12 @@
       "return_20d_pct": -3.71,
       "return_60d_pct": -19.93,
       "volatility_pct": 29.68,
-      "volume_vs_20d": 1.27,
+      "volume_vs_20d": 1.29,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "INTC",
@@ -350,12 +350,12 @@
       "return_20d_pct": -41.03,
       "return_60d_pct": -44.32,
       "volatility_pct": 128.21,
-      "volume_vs_20d": 1.33,
+      "volume_vs_20d": 1.35,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "AMD",
@@ -369,12 +369,12 @@
       "return_20d_pct": -17.88,
       "return_60d_pct": -10.97,
       "volatility_pct": 130.79,
-      "volume_vs_20d": 1.64,
+      "volume_vs_20d": 1.65,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "PLTR",
@@ -388,12 +388,12 @@
       "return_20d_pct": -27.07,
       "return_60d_pct": -22.83,
       "volatility_pct": 55.59,
-      "volume_vs_20d": 1.44,
+      "volume_vs_20d": 1.46,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "HOOD",
@@ -407,12 +407,12 @@
       "return_20d_pct": -34.61,
       "return_60d_pct": -43.36,
       "volatility_pct": 67.44,
-      "volume_vs_20d": 1.31,
+      "volume_vs_20d": 1.32,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "RIVN",
@@ -426,12 +426,12 @@
       "return_20d_pct": -12.68,
       "return_60d_pct": -38.51,
       "volatility_pct": 69.57,
-      "volume_vs_20d": 1.29,
+      "volume_vs_20d": 1.3,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "IONQ",
@@ -445,12 +445,12 @@
       "return_20d_pct": -33.74,
       "return_60d_pct": -51.2,
       "volatility_pct": 126.24,
-      "volume_vs_20d": 1.26,
+      "volume_vs_20d": 1.28,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "RKLB",
@@ -464,12 +464,12 @@
       "return_20d_pct": -13.65,
       "return_60d_pct": -32.74,
       "volatility_pct": 114.99,
-      "volume_vs_20d": 1.1,
+      "volume_vs_20d": 1.12,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "HIMS",
@@ -483,12 +483,12 @@
       "return_20d_pct": -47.31,
       "return_60d_pct": -53.89,
       "volatility_pct": 106.99,
-      "volume_vs_20d": 0.98,
+      "volume_vs_20d": 0.99,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "NU",
@@ -505,9 +505,9 @@
       "volume_vs_20d": 0.77,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "T",
@@ -521,12 +521,12 @@
       "return_20d_pct": 6.59,
       "return_60d_pct": -12.27,
       "volatility_pct": 17.17,
-      "volume_vs_20d": 1.17,
+      "volume_vs_20d": 1.18,
       "trend": "MIXED",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "SNAP",
@@ -543,9 +543,9 @@
       "volume_vs_20d": 1.26,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     }
   ],
   "candidates": [
@@ -564,9 +564,9 @@
       "volume_vs_20d": 0.91,
       "trend": "BULLISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "T",
@@ -580,12 +580,12 @@
       "return_20d_pct": 6.59,
       "return_60d_pct": -12.27,
       "volatility_pct": 17.17,
-      "volume_vs_20d": 1.17,
+      "volume_vs_20d": 1.18,
       "trend": "MIXED",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "RIOT",
@@ -599,12 +599,12 @@
       "return_20d_pct": 29.53,
       "return_60d_pct": -22.27,
       "volatility_pct": 114.47,
-      "volume_vs_20d": 1.12,
+      "volume_vs_20d": 1.13,
       "trend": "MIXED",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "SNDL",
@@ -621,9 +621,9 @@
       "volume_vs_20d": 2.02,
       "trend": "MIXED",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "BB",
@@ -637,12 +637,12 @@
       "return_20d_pct": -12.89,
       "return_60d_pct": -10.17,
       "volatility_pct": 71.91,
-      "volume_vs_20d": 1.24,
+      "volume_vs_20d": 1.26,
       "trend": "MIXED",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "F",
@@ -656,12 +656,12 @@
       "return_20d_pct": -3.71,
       "return_60d_pct": -19.93,
       "volatility_pct": 29.68,
-      "volume_vs_20d": 1.27,
+      "volume_vs_20d": 1.29,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "PLTR",
@@ -675,12 +675,12 @@
       "return_20d_pct": -27.07,
       "return_60d_pct": -22.83,
       "volatility_pct": 55.59,
-      "volume_vs_20d": 1.44,
+      "volume_vs_20d": 1.46,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "HOOD",
@@ -694,12 +694,12 @@
       "return_20d_pct": -34.61,
       "return_60d_pct": -43.36,
       "volatility_pct": 67.44,
-      "volume_vs_20d": 1.31,
+      "volume_vs_20d": 1.32,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "OPEN",
@@ -713,12 +713,12 @@
       "return_20d_pct": -34.09,
       "return_60d_pct": -61.39,
       "volatility_pct": 134.16,
-      "volume_vs_20d": 2.01,
+      "volume_vs_20d": 2.04,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "RIVN",
@@ -732,12 +732,12 @@
       "return_20d_pct": -12.68,
       "return_60d_pct": -38.51,
       "volatility_pct": 69.57,
-      "volume_vs_20d": 1.29,
+      "volume_vs_20d": 1.3,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "NOK",
@@ -754,9 +754,9 @@
       "volume_vs_20d": 1.28,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "SOFI",
@@ -770,12 +770,12 @@
       "return_20d_pct": -14.61,
       "return_60d_pct": -34.93,
       "volatility_pct": 76.36,
-      "volume_vs_20d": 1.26,
+      "volume_vs_20d": 1.27,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "CLOV",
@@ -789,12 +789,12 @@
       "return_20d_pct": -18.91,
       "return_60d_pct": -11.82,
       "volatility_pct": 78.47,
-      "volume_vs_20d": 1.28,
+      "volume_vs_20d": 1.35,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "GPRO",
@@ -808,31 +808,31 @@
       "return_20d_pct": -49.7,
       "return_60d_pct": -16.03,
       "volatility_pct": 80.55,
-      "volume_vs_20d": 1.02,
+      "volume_vs_20d": 1.03,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     },
     {
       "symbol": "PLUG",
-      "price": 0.9565,
+      "price": 0.96,
       "hypothetical_dollars": 20.0,
-      "hypothetical_shares": 20.909566,
+      "hypothetical_shares": 20.833334,
       "score": 6.9,
       "risk_score": 7.2,
       "signal": "AVOID",
-      "return_5d_pct": -13.83,
-      "return_20d_pct": -30.69,
-      "return_60d_pct": -57.86,
-      "volatility_pct": 84.42,
+      "return_5d_pct": -13.51,
+      "return_20d_pct": -30.43,
+      "return_60d_pct": -57.71,
+      "volatility_pct": 84.13,
       "volume_vs_20d": 2.78,
       "trend": "BEARISH",
       "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-      "history_start": "2026-05-21",
+      "history_start": "2026-05-26",
       "history_end": "2026-11-20",
-      "bars": 128
+      "bars": 126
     }
   ],
   "consensus": [
@@ -914,12 +914,12 @@
         "return_20d_pct": 29.53,
         "return_60d_pct": -22.27,
         "volatility_pct": 114.47,
-        "volume_vs_20d": 1.12,
+        "volume_vs_20d": 1.13,
         "trend": "MIXED",
         "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-        "history_start": "2026-05-21",
+        "history_start": "2026-05-26",
         "history_end": "2026-11-20",
-        "bars": 128
+        "bars": 126
       },
       "analysts": {
         "Analyst A": "REVIEW",
@@ -938,22 +938,22 @@
       "decision": "WATCH / NO TRADE",
       "selection": {
         "symbol": "PLUG",
-        "price": 0.9565,
+        "price": 0.96,
         "hypothetical_dollars": 20.0,
-        "hypothetical_shares": 20.909566,
+        "hypothetical_shares": 20.833334,
         "score": 6.9,
         "risk_score": 7.2,
         "signal": "AVOID",
-        "return_5d_pct": -13.83,
-        "return_20d_pct": -30.69,
-        "return_60d_pct": -57.86,
-        "volatility_pct": 84.42,
+        "return_5d_pct": -13.51,
+        "return_20d_pct": -30.43,
+        "return_60d_pct": -57.71,
+        "volatility_pct": 84.13,
         "volume_vs_20d": 2.78,
         "trend": "BEARISH",
         "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-        "history_start": "2026-05-21",
+        "history_start": "2026-05-26",
         "history_end": "2026-11-20",
-        "bars": 128
+        "bars": 126
       },
       "analysts": {
         "Analyst A": "REVIEW",
@@ -985,9 +985,9 @@
         "volume_vs_20d": 0.91,
         "trend": "BULLISH",
         "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-        "history_start": "2026-05-21",
+        "history_start": "2026-05-26",
         "history_end": "2026-11-20",
-        "bars": 128
+        "bars": 126
       },
       "analysts": {
         "Analyst A": "PASS",
@@ -1019,9 +1019,9 @@
         "volume_vs_20d": 0.91,
         "trend": "BULLISH",
         "robinhood_fractional_status": "VERIFY IN ROBINHOOD APP",
-        "history_start": "2026-05-21",
+        "history_start": "2026-05-26",
         "history_end": "2026-11-20",
-        "bars": 128
+        "bars": 126
       },
       "analysts": {
         "Analyst A": "PASS",
